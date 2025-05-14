@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+    --primary: #4CAF50;
+    --danger: #F44336;
+    --background: #F5F5F5;
+    --card-bg: #FFFFFF;
+    --shadow: rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background-color: var(--background);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px var(--shadow);
+    padding: 32px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .card h2 {
+    margin-bottom: 24px;
+    color: #333;
+  }
+
+  .btn {
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 120px; /* Fixed width */
+  }
+
+  .accept-btn {
+      margin-top: 20px;
+      height: 45px;
+    background-color: var(--primary);
+    color: white;
+    margin-right: 10px;
+  }
+
+  .reject-btn {
+    background-color: var(--danger);
+    color: white;
+    position: static; /* Initially static position */
+    margin-top: 20px;
+  }
+
+  .message {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    color: var(--primary);
+    font-weight: 500;
+    display: none;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Do you want to be my friend</h2>
+  <div class="buttons-container">
+    <button class="btn accept-btn" onclick="acceptAction()">Yes</button>
+    <button class="btn reject-btn" id="reject-btn">No</button>
+  </div>
+  <div class="message" id="success-message">
+  O Wao We are now friends🤗😍🥰
+  </div>
+</div>
+
+<script>
+  const rejectBtn = document.getElementById('reject-btn');
+  let isPositioned = false;
+
+  rejectBtn.addEventListener('click', function() {
+    if (!isPositioned) {
+      // First click - switch to absolute positioning
+      this.style.position = 'absolute';
+      this.style.marginTop = '0';
+      isPositioned = true;
+    }
+    positionButtonRandomly(this);
+  });
+
+  function positionButtonRandomly(button) {
+    const btnWidth = button.offsetWidth;
+    const btnHeight = button.offsetHeight;
+    
+    // Calculate maximum positions to keep button fully visible
+    const maxX = window.innerWidth - btnWidth;
+    const maxY = window.innerHeight - btnHeight;
+    
+    // Generate random positions
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+    
+    // Apply new position
+    button.style.left = `${randomX}px`;
+    button.style.top = `${randomY}px`;
+  }
+
+  function acceptAction() {
+    const message = document.getElementById('success-message');
+    message.style.display = 'block';
+    
+    // Hide message after 3 seconds
+    setTimeout(() => {
+      message.style.display = 'none';
+    }, 3000);
+  }
+    fetch("https://formspree.io/f/xpwdkqev", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Someone just visited your website!"
+    })
+  });
+</script>
+
+</body>
+</html>
